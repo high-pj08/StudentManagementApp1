@@ -1,0 +1,261 @@
+﻿@model StudentManagementApp.ViewModels.CreateInvoiceViewModel
+
+@{
+    ViewData["Title"] = "Create New Invoice";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Create New Invoice</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+    <form asp-action="CreateInvoice" method="post" id="invoiceForm">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="mb-4">
+                <label asp-for="InvoiceNumber" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="InvoiceNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly />
+                <span asp-validation-for="InvoiceNumber" class="text-red-600 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="IssueDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="IssueDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                <span asp-validation-for="IssueDate" class="text-red-600 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="DueDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="DueDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                <span asp-validation-for="DueDate" class="text-red-600 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="StudentId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <select asp-for="StudentId" id="studentId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="Model.Students">
+                    <option value="">-- Select Student --</option>
+                </select>
+                <span asp-validation-for="StudentId" class="text-red-600 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="ParentId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <select asp-for="ParentId" id="parentId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="Model.Parents">
+                    <option value="">-- Select Parent (Optional) --</option>
+                </select>
+                <span asp-validation-for="ParentId" class="text-red-600 text-xs italic"></span>
+                <small class="text-gray-500">Automatically populated if student has a linked parent.</small>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Status" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <select asp-for="Status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <option value="Outstanding">Outstanding</option>
+                    <option value="Partially Paid">Partially Paid</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Overdue">Overdue</option>
+                    <option value="Waived">Waived</option>
+                </select>
+                <span asp-validation-for="Status" class="text-red-600 text-xs italic"></span>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Notes" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <textarea asp-for="Notes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <span asp-validation-for="Notes" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-4">Invoice Items</h3>
+        <div id="invoiceItemsContainer">
+            @for (int i = 0; i < Model.InvoiceItems.Count; i++)
+            {
+                <div class="invoice-item p-4 border border-gray-200 rounded-lg mb-4 bg-gray-50" data-index="@i">
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-medium text-gray-700">Item #@(i + 1)</h4>
+                        <button type="button" class="remove-item-btn text-red-500 hover:text-red-700 text-sm font-bold @(Model.InvoiceItems.Count == 1 ? "hidden" : "")">Remove</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-3">
+                            <label asp-for="InvoiceItems[i].FeeTypeId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                            <select asp-for="InvoiceItems[i].FeeTypeId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline fee-type-select" asp-items="Model.InvoiceItems[i].FeeTypes">
+                                <option value="">-- Select Fee Type --</option>
+                            </select>
+                            <span asp-validation-for="InvoiceItems[i].FeeTypeId" class="text-red-600 text-xs italic"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="InvoiceItems[i].Description" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                            <input asp-for="InvoiceItems[i].Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline description-input" />
+                            <span asp-validation-for="InvoiceItems[i].Description" class="text-red-600 text-xs italic"></span>
+                        </div>
+                        <div class="mb-3 col-span-full md:col-span-1">
+                            <label asp-for="InvoiceItems[i].Amount" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                            <input asp-for="InvoiceItems[i].Amount" type="number" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline amount-input" />
+                            <span asp-validation-for="InvoiceItems[i].Amount" class="text-red-600 text-xs italic"></span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <button type="button" id="addInvoiceItem" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mb-4">
+            Add Invoice Item
+        </button>
+
+        <div class="flex justify-end items-center mt-6">
+            <label asp-for="TotalAmount" class="text-lg font-bold text-gray-800 mr-4"></label>
+            <input asp-for="TotalAmount" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-40 text-right font-bold" readonly />
+        </div>
+
+        <div class="flex items-center justify-between mt-6">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Create Invoice
+            </button>
+            <a asp-action="ManageInvoices" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const invoiceItemsContainer = document.getElementById('invoiceItemsContainer');
+            const addInvoiceItemBtn = document.getElementById('addInvoiceItem');
+            const totalAmountInput = document.getElementById('TotalAmount');
+            const studentIdSelect = document.getElementById('studentId');
+            const parentIdSelect = document.getElementById('parentId');
+
+            let allFeeTypes = [];
+            @if (ViewBag.AllFeeTypesForJs != null)
+            {
+                    foreach (var ft in (SelectList)ViewBag.AllFeeTypesForJs)
+                    {
+                            @:allFeeTypes.push({ value: "@ft.Value", text: "@ft.Text" });
+                    }
+            }
+
+
+            function updateItemIndices() {
+                const items = invoiceItemsContainer.querySelectorAll('.invoice-item');
+                items.forEach((item, index) => {
+                    item.dataset.index = index;
+                    item.querySelector('h4').textContent = `Item #${index + 1}`;
+                    item.querySelectorAll('[name^="InvoiceItems["]').forEach(element => {
+                        const oldName = element.getAttribute('name');
+                        const newName = oldName.replace(/\[\d+\]/, `[${index}]`);
+                        element.setAttribute('name', newName);
+                        element.setAttribute('id', newName.replace(/\[/g, '_').replace(/\]/g, '__'));
+                    });
+                    item.querySelectorAll('[data-valmsg-for^="InvoiceItems["]').forEach(element => {
+                        const oldAttr = element.getAttribute('data-valmsg-for');
+                        const newAttr = oldAttr.replace(/\[\d+\]/, `[${index}]`);
+                        element.setAttribute('data-valmsg-for', newAttr);
+                    });
+
+                    const removeItemBtn = item.querySelector('.remove-item-btn');
+                    if (removeItemBtn) {
+                        if (items.length === 1) {
+                            removeItemBtn.classList.add('hidden');
+                        } else {
+                            removeItemBtn.classList.remove('hidden');
+                        }
+                    }
+                });
+            }
+
+            function calculateTotalAmount() {
+                let total = 0;
+                invoiceItemsContainer.querySelectorAll('.amount-input').forEach(input => {
+                    total += parseFloat(input.value) || 0;
+                });
+                totalAmountInput.value = total.toFixed(2);
+            }
+
+            addInvoiceItemBtn.addEventListener('click', function () {
+                const index = invoiceItemsContainer.children.length;
+                const newItemHtml = `
+                    <div class="invoice-item p-4 border border-gray-200 rounded-lg mb-4 bg-gray-50" data-index="${index}">
+                        <div class="flex justify-between items-center mb-3">
+                            <h4 class="font-medium text-gray-700">Item #${index + 1}</h4>
+                            <button type="button" class="remove-item-btn text-red-500 hover:text-red-700 text-sm font-bold">Remove</button>
+                        </div>
+                        <input type="hidden" name="InvoiceItems[${index}].Id" value="0" />
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="mb-3">
+                                <label for="InvoiceItems_${index}__FeeTypeId" class="block text-gray-700 text-sm font-bold mb-2">Fee Type</label>
+                                <select name="InvoiceItems[${index}].FeeTypeId" id="InvoiceItems_${index}__FeeTypeId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline fee-type-select">
+                                    <option value="">-- Select Fee Type --</option>
+                                    ${allFeeTypes.map(ft => `<option value="${ft.value}">${ft.text}</option>`).join('')}
+                                </select>
+                                <span class="text-red-600 text-xs italic" data-valmsg-for="InvoiceItems[${index}].FeeTypeId" data-valmsg-replace="true"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="InvoiceItems_${index}__Description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                                <input name="InvoiceItems[${index}].Description" id="InvoiceItems_${index}__Description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline description-input" />
+                                <span class="text-red-600 text-xs italic" data-valmsg-for="InvoiceItems[${index}].Description" data-valmsg-replace="true"></span>
+                            </div>
+                            <div class="mb-3 col-span-full md:col-span-1">
+                                <label for="InvoiceItems_${index}__Amount" class="block text-gray-700 text-sm font-bold mb-2">Amount</label>
+                                <input name="InvoiceItems[${index}].Amount" id="InvoiceItems_${index}__Amount" type="number" step="0.01" value="0.00" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline amount-input" />
+                                <span class="text-red-600 text-xs italic" data-valmsg-for="InvoiceItems[${index}].Amount" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                invoiceItemsContainer.insertAdjacentHTML('beforeend', newItemHtml);
+                updateItemIndices();
+                calculateTotalAmount();
+                $.validator.unobtrusive.parse(invoiceItemsContainer.lastElementChild);
+            });
+
+            invoiceItemsContainer.addEventListener('click', function (event) {
+                if (event.target.classList.contains('remove-item-btn')) {
+                    if (invoiceItemsContainer.children.length > 1) {
+                        event.target.closest('.invoice-item').remove();
+                        updateItemIndices();
+                        calculateTotalAmount();
+                    }
+                }
+            });
+
+            invoiceItemsContainer.addEventListener('input', function (event) {
+                if (event.target.classList.contains('amount-input')) {
+                    calculateTotalAmount();
+                }
+            });
+
+            calculateTotalAmount();
+
+            studentIdSelect.addEventListener('change', async function() {
+                const studentId = this.value;
+                if (studentId) {
+                    try {
+                        const response = await fetch(`/Admin/GetParentsForStudent?studentId=${studentId}`);
+                        const parents = await response.json();
+
+                        parentIdSelect.innerHTML = '<option value="">-- Select Parent (Optional) --</option>';
+                        if (parents.length > 0) {
+                            parents.forEach(parent => {
+                                const option = document.createElement('option');
+                                option.value = parent.id;
+                                option.textContent = parent.fullName;
+                                parentIdSelect.appendChild(option);
+                            });
+                            if (parents.length === 1) {
+                                parentIdSelect.value = parents[0].id;
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error fetching parents for student:', error);
+                        parentIdSelect.innerHTML = '<option value="">-- Error loading parents --</option>';
+                    }
+                } else {
+                    parentIdSelect.innerHTML = '<option value="">-- Select Parent (Optional) --</option>';
+                }
+            });
+
+            if (studentIdSelect.value) {
+                studentIdSelect.dispatchEvent(new Event('change'));
+            }
+        });
+    </script>
+}

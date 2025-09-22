@@ -1,0 +1,57 @@
+﻿@model StudentManagementApp.ViewModels.ClassFeeViewModel
+
+@{
+    ViewData["Title"] = "Edit Class Fee";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Class Fee</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <form asp-action="EditClassFee" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-4">
+            <label asp-for="ClassId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="ClassId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="Model.Classes">
+                <option value="">-- Select Class --</option>
+            </select>
+            <span asp-validation-for="ClassId" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="FeeTypeId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="FeeTypeId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="Model.FeeTypes">
+                <option value="">-- Select Fee Type --</option>
+            </select>
+            <span asp-validation-for="FeeTypeId" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Amount" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Amount" type="number" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="Amount" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="EffectiveDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="EffectiveDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="EffectiveDate" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="flex items-center justify-between mt-6">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Save Changes
+            </button>
+            <a asp-action="ManageClassFees" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

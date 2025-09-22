@@ -1,0 +1,59 @@
+﻿@model StudentManagementApp.ViewModels.NoticeViewModel
+
+@{
+    ViewData["Title"] = "Create New Notice";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Create New Notice</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+    <form asp-action="CreateNotice" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+
+        <div class="mb-4">
+            <label asp-for="Title" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="Title" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Content" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <textarea asp-for="Content" rows="5" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <span asp-validation-for="Content" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="mb-4">
+                <label asp-for="PublishDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="PublishDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                <span asp-validation-for="PublishDate" class="text-red-600 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="ExpiryDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="ExpiryDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                <span asp-validation-for="ExpiryDate" class="text-red-600 text-xs italic"></span>
+            </div>
+        </div>
+
+        <div class="mb-4 flex items-center">
+            <input asp-for="IsActive" type="checkbox" class="form-checkbox h-5 w-5 text-blue-600" />
+            <label asp-for="IsActive" class="ml-2 block text-gray-700 text-sm font-bold"></label>
+            <span asp-validation-for="IsActive" class="text-red-600 text-xs italic ml-2"></span>
+        </div>
+
+        <div class="flex items-center justify-between mt-6">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Create Notice
+            </button>
+            <a asp-action="ManageNotices" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,47 @@
+﻿@model StudentManagementApp.Models.Parent
+
+@{
+    ViewData["Title"] = "Parent Details";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Parent Details</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 text-gray-700">
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd class="col-span-1">@Html.DisplayFor(model => model.FirstName)</dd>
+
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.LastName)</dt>
+        <dd class="col-span-1">@Html.DisplayFor(model => model.LastName)</dd>
+
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd class="col-span-1">@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+        <dd class="col-span-1">@(Model.PhoneNumber ?? "N/A")</dd>
+
+        <dt class="font-bold col-span-1">Linked User Account</dt>
+        <dd class="col-span-1">@(Model.ApplicationUser?.Email ?? "Not Linked")</dd>
+
+        <dt class="font-bold col-span-1">Children</dt>
+        <dd class="col-span-1">
+            @if (Model.Children != null && Model.Children.Any())
+            {
+                <ul>
+                    @foreach (var child in Model.Children)
+                    {
+                        <li>@child.FullName (@child.Email)</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>None</span>
+            }
+        </dd>
+    </dl>
+    <div class="mt-6 flex justify-between">
+        <a asp-action="EditParent" asp-route-id="@Model.Id" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Edit</a>
+        <a asp-action="ManageParents" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Back to List</a>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+﻿@model StudentManagementApp.ViewModels.ParentViewModel
+
+@{
+    ViewData["Title"] = "Edit Parent";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Parent</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <form asp-action="EditParent" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-4">
+            <label asp-for="FirstName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="FirstName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="FirstName" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="LastName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="LastName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="LastName" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Email" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="Email" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="PhoneNumber" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="PhoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="PhoneNumber" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ApplicationUserId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="ApplicationUserId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="Model.ApplicationUsers">
+                <option value="">-- Select User Account (Optional) --</option>
+            </select>
+            <span asp-validation-for="ApplicationUserId" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="SelectedStudentIds" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="SelectedStudentIds" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32" multiple="multiple" asp-items="Model.AllStudents">
+            </select>
+            <span asp-validation-for="SelectedStudentIds" class="text-red-600 text-xs italic"></span>
+            <small class="text-gray-500">Hold Ctrl (Windows) or Cmd (Mac) to select/deselect multiple students.</small>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Save
+            </button>
+            <a asp-action="ManageParents" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

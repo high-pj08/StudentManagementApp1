@@ -1,0 +1,133 @@
+﻿@model StudentManagementApp.ViewModels.InvoiceDetailsViewModel
+
+@{
+    ViewData["Title"] = "Invoice Details";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Invoice Details: @Model.InvoiceNumber</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">Invoice Information</h3>
+            <dl class="text-sm">
+                <dt class="text-gray-600">Invoice Number:</dt>
+                <dd class="font-medium text-gray-900 mb-2">@Model.InvoiceNumber</dd>
+
+                <dt class="text-gray-600">Issue Date:</dt>
+                <dd class="font-medium text-gray-900 mb-2">@Model.IssueDate.ToShortDateString()</dd>
+
+                <dt class="text-gray-600">Due Date:</dt>
+                <dd class="font-medium text-gray-900 mb-2">@Model.DueDate.ToShortDateString()</dd>
+
+                <dt class="text-gray-600">Status:</dt>
+                <dd class="font-medium text-gray-900 mb-2">@Model.Status</dd>
+
+                <dt class="text-gray-600">Notes:</dt>
+                <dd class="font-medium text-gray-900 mb-2">@(string.IsNullOrEmpty(Model.Notes) ? "N/A" : Model.Notes)</dd>
+            </dl>
+        </div>
+        <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">Recipient Information</h3>
+            <dl class="text-sm">
+                <dt class="text-gray-600">Student:</dt>
+                <dd class="font-medium text-blue-700 mb-2">@Model.StudentFullName</dd>
+
+                <dt class="text-gray-600">Parent Responsible:</dt>
+                <dd class="font-medium text-blue-700 mb-2">@Model.ParentFullName</dd>
+            </dl>
+        </div>
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-800 mb-3">Invoice Items</h3>
+    @if (!Model.InvoiceItems.Any())
+    {
+        <p class="text-gray-600 text-sm mb-4">No items on this invoice.</p>
+    }
+    else
+    {
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fee Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var item in Model.InvoiceItems)
+                    {
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">@item.FeeTypeName</td>
+                            <td class="px-6 py-4 whitespace-nowrap">@item.Description</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right">@item.Amount.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="bg-gray-100 font-bold">
+                        <td colspan="2" class="px-6 py-3 text-right text-sm text-gray-800">Total Amount:</td>
+                        <td class="px-6 py-3 text-right text-sm text-gray-800">@Model.TotalAmount.ToString("C")</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    }
+
+    <h3 class="text-xl font-semibold text-gray-800 mb-3">Payments Received</h3>
+    @if (!Model.Payments.Any())
+    {
+        <p class="text-gray-600 text-sm mb-4">No payments recorded for this invoice yet.</p>
+    }
+    else
+    {
+        <div class="overflow-x-auto mb-6">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Date</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var payment in Model.Payments)
+                    {
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">@payment.PaymentDate.ToShortDateString()</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right">@payment.Amount.ToString("C")</td>
+                            <td class="px-6 py-4 whitespace-nowrap">@payment.PaymentMethod</td>
+                            <td class="px-6 py-4 whitespace-nowrap">@payment.Status</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="bg-gray-100 font-bold">
+                        <td colspan="1" class="px-6 py-3 text-right text-sm text-gray-800">Total Paid:</td>
+                        <td class="px-6 py-3 text-right text-sm text-gray-800">@Model.AmountPaid.ToString("C")</td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr class="bg-blue-50 font-bold">
+                        <td colspan="1" class="px-6 py-3 text-right text-sm text-blue-800">Balance Due:</td>
+                        <td class="px-6 py-3 text-right text-sm text-blue-800">@Model.BalanceDue.ToString("C")</td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    }
+
+    <div class="flex items-center justify-between mt-6">
+        <a asp-action="MyInvoices" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+            Back to My Invoices
+        </a>
+        @if (Model.BalanceDue > 0)
+        {
+            <a asp-controller="ParentPayments" asp-action="MakePayment" asp-route-invoiceId="@Model.Id" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Pay This Invoice
+            </a>
+        }
+    </div>
+</div>

@@ -1,0 +1,119 @@
+﻿@model StudentManagementApp.ViewModels.ParentViewModel
+
+@{
+    ViewData["Title"] = "Create Parent";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Create New Parent</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <form asp-action="CreateParent" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+
+        <div class="mb-4">
+            <label asp-for="FirstName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="FirstName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="FirstName" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="LastName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="LastName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="LastName" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Email" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="Email" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="PhoneNumber" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="PhoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="PhoneNumber" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ApplicationUserId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="ApplicationUserId" id="applicationUserId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="Model.ApplicationUsers">
+                <option value="">-- Select Existing User Account (Optional) --</option>
+            </select>
+            <span asp-validation-for="ApplicationUserId" class="text-red-600 text-xs italic"></span>
+            <small class="text-gray-500">Leave blank to create a new user account below.</small>
+        </div>
+
+        <div id="newUserFields" class="border-t border-gray-200 pt-4 mt-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Create New Login Account</h3>
+            <div class="mb-4">
+                <label asp-for="NewUserEmail" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="NewUserEmail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                <span asp-validation-for="NewUserEmail" class="text-red-600 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="NewUserPassword" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="NewUserPassword" type="password" id="newUserPasswordInput" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-10" />
+                <span toggle="#newUserPasswordInput" class="fa fa-fw fa-eye field-icon toggle-password absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-gray-900"></span>
+                <span asp-validation-for="NewUserPassword" class="text-red-600 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="ConfirmNewUserPassword" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <input asp-for="ConfirmNewUserPassword" type="password" id="confirmNewUserPasswordInput" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-10" />
+                <span toggle="#confirmNewUserPasswordInput" class="fa fa-fw fa-eye field-icon toggle-password absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-gray-900"></span>
+                <span asp-validation-for="ConfirmNewUserPassword" class="text-red-600 text-xs italic"></span>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="SelectedStudentIds" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="SelectedStudentIds" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32" multiple="multiple" asp-items="Model.AllStudents">
+            </select>
+            <span asp-validation-for="SelectedStudentIds" class="text-red-600 text-xs italic"></span>
+            <small class="text-gray-500">Hold Ctrl (Windows) or Cmd (Mac) to select multiple students.</small>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Create Parent
+            </button>
+            <a asp-action="ManageParents" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const applicationUserIdSelect = document.getElementById('applicationUserId');
+            const newUserFieldsDiv = document.getElementById('newUserFields');
+
+            function toggleNewUserFields() {
+                if (applicationUserIdSelect.value === "") {
+                    newUserFieldsDiv.style.display = 'block'; // Show fields
+                    // Enable required attributes if needed for client-side validation
+                    newUserFieldsDiv.querySelectorAll('input').forEach(input => input.required = true);
+                } else {
+                    newUserFieldsDiv.style.display = 'none'; // Hide fields
+                    // Disable required attributes and clear values if hidden
+                    newUserFieldsDiv.querySelectorAll('input').forEach(input => {
+                        input.required = false;
+                        input.value = ''; // Clear values when hidden
+                    });
+                }
+            }
+
+            // Initial call on page load
+            toggleNewUserFields();
+
+            // Listen for changes on the dropdown
+            applicationUserIdSelect.addEventListener('change', toggleNewUserFields);
+
+            // Setup password toggle for new fields (if site.js setupPasswordToggle is not global)
+            // If setupPasswordToggle is in site.js and runs on DOMContentLoaded, it will already apply.
+            // If not, you might need to call it specifically here:
+            // setupPasswordToggle(); // Ensure this function is accessible or defined here
+        });
+    </script>
+}

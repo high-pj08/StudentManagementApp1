@@ -1,0 +1,49 @@
+﻿@model StudentManagementApp.Models.Parent
+
+@{
+    ViewData["Title"] = "Delete Parent";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Delete Parent</h1>
+
+<h3 class="text-xl text-red-600 mb-4">Are you sure you want to delete this parent?</h3>
+<div class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 text-gray-700">
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd class="col-span-1">@Html.DisplayFor(model => model.FirstName)</dd>
+
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.LastName)</dt>
+        <dd class="col-span-1">@Html.DisplayFor(model => model.LastName)</dd>
+
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd class="col-span-1">@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt class="font-bold col-span-1">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+        <dd class="col-span-1">@(Model.PhoneNumber ?? "N/A")</dd>
+
+        <dt class="font-bold col-span-1">Linked User Account</dt>
+        <dd class="col-span-1">@(Model.ApplicationUser?.Email ?? "Not Linked")</dd>
+
+        <dt class="font-bold col-span-1">Children</dt>
+        <dd class="col-span-1">
+            @if (Model.Children != null && Model.Children.Any())
+            {
+                <ul>
+                    @foreach (var child in Model.Children)
+                    {
+                        <li>@child.FullName (@child.Email)</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>None</span>
+            }
+        </dd>
+    </dl>
+    <form asp-action="DeleteParent" method="post" class="mt-6 flex justify-between">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Delete</button>
+        <a asp-action="ManageParents" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Back to List</a>
+    </form>
+</div>

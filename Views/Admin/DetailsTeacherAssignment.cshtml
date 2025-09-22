@@ -1,0 +1,28 @@
+﻿@model StudentManagementApp.Models.TeacherClassSubject
+
+@{
+    ViewData["Title"] = "Teacher Assignment Details";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Teacher Assignment Details</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-6">
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Teacher)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Teacher!.FullName)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Class)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Class!.NameWithSection)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Subject)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Subject!.Name)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.AssignmentDate)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.AssignmentDate)</dd>
+    </dl>
+
+    <div class="flex items-center justify-between mt-6">
+        <a asp-action="EditTeacherAssignment" asp-route-id="@Model.Id" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">Edit</a>
+        <a asp-action="ManageTeacherAssignments" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Back to List</a>
+    </div>
+</div>

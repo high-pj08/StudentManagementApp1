@@ -1,0 +1,72 @@
+﻿@model StudentManagementApp.ViewModels.CreatePaymentViewModel
+
+@{
+    ViewData["Title"] = "Record New Payment";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Record New Payment</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <form asp-action="CreatePayment" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+
+        <div class="mb-4">
+            <label asp-for="InvoiceId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="InvoiceId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="Model.Invoices">
+                <option value="">-- Select Invoice --</option>
+            </select>
+            <span asp-validation-for="InvoiceId" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="PaymentDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="PaymentDate" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="PaymentDate" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Amount" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Amount" type="number" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="Amount" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="PaymentMethod" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="PaymentMethod" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="Cash">Cash</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Online">Online</option>
+                <option value="Other">Other</option>
+            </select>
+            <span asp-validation-for="PaymentMethod" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="TransactionId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="TransactionId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="TransactionId" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Notes" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <textarea asp-for="Notes" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <span asp-validation-for="Notes" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="flex items-center justify-between mt-6">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Record Payment
+            </button>
+            <a asp-action="ManagePayments" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to Payment List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

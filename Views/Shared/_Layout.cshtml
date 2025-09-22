@@ -1,0 +1,288 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using StudentManagementApp.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StudentManagementApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/StudentManagementApp.styles.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for active sidebar link */
+        .sidebar-link.active {
+            background-color: #3b82f6; /* Blue-500 */
+            color: white;
+            border-radius: 0.5rem; /* rounded-lg */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a class="text-2xl font-bold" asp-area="" asp-controller="Home" asp-action="Index">Schools Management System</a>
+            <partial name="_LoginPartial" />
+        </div>
+    </header>
+
+    <div class="flex min-h-screen">
+        <nav class="w-64 bg-white p-4 shadow-lg rounded-r-lg m-4">
+            <h2 class="text-lg font-semibold mb-4 text-gray-800">Navigation</h2>
+            <ul class="space-y-2">
+                <li>
+                    @if (User.IsInRole("Student"))
+                    {
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="StudentDashboard" asp-action="Index">
+                            <i class="fas fa-tachometer-alt mr-3"></i> My Dashboard
+                        </a>
+                    }
+                    else if (User.IsInRole("Teacher"))
+                    {
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="TeacherDashboard" asp-action="Index">
+                            <i class="fas fa-tachometer-alt mr-3"></i> Teacher Dashboard
+                        </a>
+                    }
+                    else if (User.IsInRole("Admin"))
+                    {
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="Index">
+                            <i class="fas fa-tachometer-alt mr-3"></i> Admin Dashboard
+                        </a>
+                    }
+                    else if (User.IsInRole("Parent"))
+                    {
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Parent" asp-action="Dashboard">
+                            <i class="fas fa-users mr-3"></i> Parent Dashboard
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                        </a>
+                    
+                    }
+                </li>
+                @* Student link visible to Admin, Teacher, Student *@
+                @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student"))
+                {
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Students" asp-action="Index">
+                            <i class="fas fa-user-graduate mr-3"></i> Students
+                        </a>
+                    </li>
+                }
+                @* Teacher link visible to Admin, Teacher *@
+                @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                {
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Teachers" asp-action="Index">
+                            <i class="fas fa-chalkboard-teacher mr-3"></i> Teachers
+                        </a>
+                    </li>
+                }
+                @* Classes link visible to Admin, Teacher, Student *@
+                @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student"))
+                {
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Classes" asp-action="Index">
+                            <i class="fas fa-school mr-3"></i> Classes
+                        </a>
+                    </li>
+                }
+                @* Subjects link visible to Admin, Teacher, Student *@
+                @if (User.IsInRole("Admin") || User.IsInRole("Teacher") || User.IsInRole("Student"))
+                {
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Subjects" asp-action="Index">
+                            <i class="fas fa-book mr-3"></i> Subjects
+                        </a>
+                    </li>
+                }
+                @* Teacher-specific Attendance link visible only to Teacher *@
+                @if (User.IsInRole("Teacher"))
+                {
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="TeacherAttendance" asp-action="Index">
+                            <i class="fas fa-clipboard-check mr-3"></i> Mark Attendance
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="TeacherAttendance" asp-action="ViewAttendance">
+                            <i class="fas fa-eye mr-3"></i> View Attendance
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="TeacherExams" asp-action="Index">
+                            <i class="fas fa-file-alt mr-3"></i> Manage Exams
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="TeacherMarks" asp-action="EnterMarks">
+                            <i class="fas fa-edit mr-3"></i> Enter Marks
+                        </a>
+                    </li>
+                     <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="TeacherMarks" asp-action="ViewMarks">
+                            <i class="fas fa-chart-bar mr-3"></i> View Marks
+                        </a>
+                    </li>
+                }
+                @* Parent-specific Payment and Invoice links visible only to Parent *@
+                @if (User.IsInRole("Parent"))
+                {
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Parent" asp-action="MyInvoices">
+                            <i class="fas fa-file-invoice mr-3"></i> My Invoices
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="ParentPayments" asp-action="MakePayment">
+                            <i class="fas fa-money-bill-wave mr-3"></i> Make a Payment
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="ParentPayments" asp-action="PaymentHistory">
+                            <i class="fas fa-history mr-3"></i> Payment History
+                        </a>
+                    </li>
+                }
+                @* Admin Panel link visible only to Admin *@
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="Index">
+                            <i class="fas fa-shield-alt mr-3"></i> Admin Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManageParents">
+                            <i class="fas fa-users mr-3"></i> Manage Parents
+                        </a>
+                    </li>
+                    <li>
+                        <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManagePayments">
+                            <i class="fas fa-money-check-alt mr-3"></i> Manage Payments
+                        </a>
+                    </li>
+                    <li class="pl-4"> <!-- Indented sub-menu for Fee Management -->
+                        <h4 class="text-sm font-semibold text-gray-500 my-2">Fee Management</h4>
+                        <ul>
+                            <li>
+                                <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManageFeeTypes">
+                                    <i class="fas fa-tags mr-3"></i> Fee Types
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManageClassFees">
+                                    <i class="fas fa-university mr-3"></i> Class Fees
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManageStudentFees">
+                                    <i class="fas fa-user-tag mr-3"></i> Student Fees
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="pl-4"> <!-- Indented sub-menu for Invoice Management -->
+                        <h4 class="text-sm font-semibold text-gray-500 my-2">Invoice Management</h4>
+                        <ul>
+                            <li>
+                                <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManageInvoices">
+                                    <i class="fas fa-file-invoice-dollar mr-3"></i> Manage Invoices
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="CreateInvoice">
+                                    <i class="fas fa-plus-circle mr-3"></i> Create Invoice
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="pl-4">
+                        <h4 class="text-sm font-semibold text-gray-500 my-2">Content Management</h4>
+                        <ul>
+                            <li>
+                                <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManageNotices">
+                                    <i class="fas fa-bullhorn mr-3"></i> Manage Notices
+                                </a>
+                            </li>
+                            <li>
+                                <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" asp-area="" asp-controller="Admin" asp-action="ManageHolidays">
+                                    <i class="fas fa-calendar-alt mr-3"></i> Manage Holidays
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                @* Other links (adjust visibility as needed) *@
+                
+                <li>
+                    <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" href="#">
+                        <i class="fas fa-envelope mr-3"></i> Message
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" href="#">
+                        <i class="fas fa-calculator mr-3"></i> Accounting
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" href="#">
+                        <i class="fas fa-bus mr-3"></i> Transport
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" href="#">
+                        <i class="fas fa-book-open mr-3"></i> Library
+                    </a>
+                </li>
+                <li>
+                    <a class="sidebar-link flex items-center p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-700 rounded-lg transition-colors duration-200" href="#">
+                        <i class="fas fa-cog mr-3"></i> Configuration
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main role="main" class="flex-1 p-4">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-t pt-4 text-center text-gray-600">
+        <div class="container mx-auto">
+            &copy; 2023 - StudentManagementApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+            sidebarLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref && currentPath.startsWith(linkHref)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

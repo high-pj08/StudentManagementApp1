@@ -1,0 +1,66 @@
+﻿@model StudentManagementApp.Models.Attendance
+
+@{
+    ViewData["Title"] = "Edit Attendance Record";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Attendance Record</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <form asp-action="EditAttendance" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-4">
+            <label asp-for="AttendanceDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="AttendanceDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="AttendanceDate" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="StudentId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="StudentId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="ViewBag.StudentId">
+                <option value="">-- Select Student --</option>
+            </select>
+            <span asp-validation-for="StudentId" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="ClassId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="ClassId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="ViewBag.ClassId">
+                <option value="">-- Select Class --</option>
+            </select>
+            <span asp-validation-for="ClassId" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="SubjectId" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="SubjectId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" asp-items="ViewBag.SubjectId">
+                <option value="">-- Select Subject --</option>
+            </select>
+            <span asp-validation-for="SubjectId" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Status" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="Status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+                <option value="Late">Late</option>
+                <option value="Excused">Excused</option>
+            </select>
+            <span asp-validation-for="Status" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Save
+            </button>
+            <a asp-action="ManageAttendance" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,55 @@
+﻿@model StudentManagementApp.ViewModels.PaymentDetailsViewModel
+
+@{
+    ViewData["Title"] = "Payment Details";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Payment Details</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+        <dt class="text-gray-600 font-medium">Invoice Number:</dt>
+        <dd class="text-gray-900">
+            <a asp-action="DetailsInvoice" asp-route-id="@Model.InvoiceId" class="text-blue-600 hover:text-blue-900">
+                @Html.DisplayFor(model => model.InvoiceNumber)
+            </a>
+        </dd>
+
+        <dt class="text-gray-600 font-medium">Student Name:</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.StudentFullName)</dd>
+
+        <dt class="text-gray-600 font-medium">Parent Name:</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.ParentFullName)</dd>
+
+        <dt class="text-gray-600 font-medium">Payment Date:</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.PaymentDate)</dd>
+
+        <dt class="text-gray-600 font-medium">Amount Paid:</dt>
+        <dd class="text-gray-900">@Model.Amount.ToString("C")</dd>
+
+        <dt class="text-gray-600 font-medium">Payment Method:</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.PaymentMethod)</dd>
+
+        <dt class="text-gray-600 font-medium">Status:</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Status)</dd>
+
+        <dt class="text-gray-600 font-medium">Transaction ID:</dt>
+        <dd class="text-gray-900">@(string.IsNullOrEmpty(Model.TransactionId) ? "N/A" : Model.TransactionId)</dd>
+
+        <dt class="text-gray-600 font-medium col-span-full">Notes:</dt>
+        <dd class="text-gray-900 col-span-full">@(string.IsNullOrEmpty(Model.Notes) ? "N/A" : Model.Notes)</dd>
+    </dl>
+
+    <div class="flex items-center justify-between mt-6">
+        @* Uncomment these later if you implement Edit/Delete for payments, be careful *
+        @* <a asp-action="EditPayment" asp-route-id="@Model.Id" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+            Edit
+        </a>
+        <a asp-action="DeletePayment" asp-route-id="@Model.Id" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+            Delete
+        </a> *@
+        <a asp-action="ManagePayments" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+            Back to List
+        </a>
+    </div>
+</div>

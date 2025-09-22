@@ -1,0 +1,80 @@
+﻿@model StudentManagementApp.Models.Student
+
+@{
+    ViewData["Title"] = "Create New Student";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Create New Student</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <form asp-action="CreateStudent" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm mb-4"></div>
+
+        <div class="mb-4">
+            <label asp-for="FirstName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="FirstName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="FirstName" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="LastName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="LastName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="LastName" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Email" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="Email" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="PhoneNumber" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="PhoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="PhoneNumber" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Address" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <textarea asp-for="Address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <span asp-validation-for="Address" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="EnrollmentDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="EnrollmentDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="EnrollmentDate" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="DateOfBirth" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="DateOfBirth" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            <span asp-validation-for="DateOfBirth" class="text-red-600 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Gender" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <select asp-for="Gender" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">-- Select Gender --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <span asp-validation-for="Gender" class="text-red-600 text-xs italic"></span>
+        </div>
+
+        <div class="mb-6">
+            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Login Password (Optional - leave blank if no login account needed):</label>
+            <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="new-password" />
+            <p class="text-gray-500 text-xs italic mt-1">Provide a password to create an associated login account for this student.</p>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Create
+            </button>
+            <a asp-action="ManageStudents" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

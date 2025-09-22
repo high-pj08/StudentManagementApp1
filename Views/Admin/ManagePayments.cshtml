@@ -1,0 +1,76 @@
+﻿@model IEnumerable<StudentManagementApp.ViewModels.PaymentListViewModel>
+
+@{
+    ViewData["Title"] = "Manage All Payments";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Manage All Payments</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-md" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
+    @if (!Model.Any())
+    {
+        <p class="text-gray-600 text-center py-4">No payment records found in the system.</p>
+    }
+    else
+    {
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.PaymentDate)
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.PaymentMethod)
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @Html.DisplayFor(modelItem => item.PaymentDate)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap font-semibold">
+                            @item.Amount.ToString("C")
+                        </td>
+                        
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @Html.DisplayFor(modelItem => item.PaymentMethod)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            @* Add actions like Details, Edit, Delete if needed for admin *@
+                            @* <a asp-action="DetailsPayment" asp-route-id="@item.Id" class="text-blue-600 hover:text-blue-900">Details</a> *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

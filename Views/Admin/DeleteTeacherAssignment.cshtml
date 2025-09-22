@@ -1,0 +1,33 @@
+﻿@model StudentManagementApp.Models.TeacherClassSubject
+
+@{
+    ViewData["Title"] = "Delete Teacher Assignment";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Delete Teacher Assignment</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Are you sure you want to delete this teacher assignment?</h3>
+    <p class="text-red-600 mb-4">This will permanently remove the assignment record.</p>
+
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-6">
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Teacher)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Teacher!.FullName)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Class)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Class!.NameWithSection)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Subject)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Subject!.Name)</dd>
+    </dl>
+
+    <form asp-action="DeleteTeacherAssignment" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Delete
+            </button>
+            <a asp-action="ManageTeacherAssignments" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Back to List</a>
+        </div>
+    </form>
+</div>

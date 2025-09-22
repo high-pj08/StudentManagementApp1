@@ -1,0 +1,61 @@
+﻿@model IEnumerable<StudentManagementApp.Models.Attendance>
+
+@{
+    ViewData["Title"] = "My Attendance";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">My Attendance Records</h1>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-md" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
+    @if (!Model.Any())
+    {
+        <p class="text-gray-600 text-center py-4">No attendance records found for you.</p>
+    }
+    else
+    {
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.AttendanceDate)
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.Class)
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.Subject)
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @Html.DisplayFor(modelItem => item.AttendanceDate)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @Html.DisplayFor(modelItem => item.Class!.NameWithSection)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @Html.DisplayFor(modelItem => item.Subject!.Name)
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

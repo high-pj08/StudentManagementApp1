@@ -1,0 +1,67 @@
+﻿@model IEnumerable<StudentManagementApp.Models.Class>
+
+@{
+    ViewData["Title"] = "Classes List";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Classes List</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    @Html.DisplayNameFor(model => model.Section)
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    @Html.DisplayNameFor(model => model.YearLevel)
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th scope="col" class="relative px-6 py-3">
+                    <span class="sr-only">Actions</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @Html.DisplayFor(modelItem => item.Section)
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @Html.DisplayFor(modelItem => item.YearLevel)
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="text-blue-600 hover:text-blue-900 mr-2">Details</a>
+                        @* Only Admin can edit/delete from this view if you decide to add it here,
+                           but typically general views are read-only for non-admins.
+                           Admin has full CRUD in AdminController. *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Admin" asp-action="EditClass" asp-route-id="@item.Id" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit (Admin)</a>
+                            <a asp-controller="Admin" asp-action="DeleteClass" asp-route-id="@item.Id" class="text-red-600 hover:text-red-900">Delete (Admin)</a>
+                        }
+                    </td>
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">No classes found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

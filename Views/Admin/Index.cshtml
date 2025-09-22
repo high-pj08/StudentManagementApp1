@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Admin Panel</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <p class="text-gray-700">Welcome to the Admin Panel! Here you can manage users, teachers, students, and other system configurations.</p>
+    <div class="mt-4">
+        <a asp-controller="Admin" asp-action="ManageUsers" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-200 mr-2 mb-2">Manage Users</a>
+        <a asp-controller="Admin" asp-action="ManageTeachers" class="inline-block bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 mr-2 mb-2">Manage Teachers</a>
+        <a asp-controller="Admin" asp-action="ManageStudents" class="inline-block bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors duration-200 mr-2 mb-2">Manage Students</a>
+        <a asp-controller="Admin" asp-action="ManageSubjects" class="inline-block bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors duration-200 mr-2 mb-2">Manage Subjects</a>
+        <a asp-controller="Admin" asp-action="ManageClasses" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200 mr-2 mb-2">Manage Classes</a>
+        <a asp-controller="Admin" asp-action="ManageEnrollments" class="inline-block bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors duration-200 mr-2 mb-2">Manage Enrollments</a>
+        <a asp-controller="Admin" asp-action="ManageTeacherAssignments" class="inline-block bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition-colors duration-200 mr-2 mb-2">Manage Teacher Assignments</a>
+        <a asp-controller="Admin" asp-action="ManageAttendance" class="inline-block bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition-colors duration-200 mr-2 mb-2">Manage Attendance</a>
+        <a asp-controller="Admin" asp-action="ManageParents" class="inline-block bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 transition-colors duration-200 mr-2 mb-2">ManageParents</a>
+        <a href="#" class="inline-block bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-200 mb-2">System Settings</a>
+    </div>
+</div>

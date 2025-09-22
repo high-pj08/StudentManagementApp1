@@ -1,0 +1,61 @@
+﻿@model StudentManagementApp.ViewModels.EditUserRolesViewModel
+
+@{
+    ViewData["Title"] = $"Edit Roles for {Model.UserName}";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Roles for @Model.UserName</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
+    <form asp-action="EditUserRoles" method="post">
+        <div asp-validation-summary="All" class="text-red-600 text-sm mb-4"></div>
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="UserName" />
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Username:</label>
+            <p class="text-gray-900">@Model.UserName</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">First Name:</label>
+            <p class="text-gray-900">@Model.FirstName</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Last Name:</label>
+            <p class="text-gray-900">@Model.LastName</p>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Assign Roles:</label>
+            @foreach (var role in Model.AllRoles)
+            {
+                <div class="flex items-center mb-2">
+                    <input type="checkbox"
+                           name="UserRoles"
+                           value="@role"
+                           id="@($"role-{role}")"
+                           class="form-checkbox h-5 w-5 text-blue-600 rounded"
+                           @(Model.UserRoles.Contains(role) ? "checked" : "") />
+                    <label for="@($"role-{role}")" class="ml-2 text-gray-700">@role</label>
+                </div>
+            }
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Update Roles
+            </button>
+            <a asp-action="ManageUsers" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

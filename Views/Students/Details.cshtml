@@ -1,0 +1,52 @@
+﻿@model StudentManagementApp.Models.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Student Details</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-6">
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.FirstName)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.LastName)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.LastName)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Address)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Address)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.EnrollmentDate)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.EnrollmentDate)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.DateOfBirth)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.DateOfBirth)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Gender)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Gender)</dd>
+
+        <dt class="text-gray-700 font-medium">Login Account:</dt>
+        <dd class="text-gray-900">
+            @if (Model.ApplicationUser != null)
+            {
+                <span class="text-green-600 font-semibold">Yes (@Model.ApplicationUser.UserName)</span>
+            }
+            else
+            {
+                <span class="text-red-600">No</span>
+            }
+        </dd>
+    </dl>
+
+    <div class="flex items-center justify-between mt-6">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">Edit</a>
+        <a asp-action="Index" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Back to List</a> @* Note: asp-action is now "Index" (not "ManageStudents") *@
+    </div>
+</div>

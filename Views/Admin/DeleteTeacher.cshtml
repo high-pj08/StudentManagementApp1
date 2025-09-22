@@ -1,0 +1,45 @@
+﻿@model StudentManagementApp.Models.Teacher
+
+@{
+    ViewData["Title"] = "Delete Teacher";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Delete Teacher</h1>
+
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Are you sure you want to delete this teacher?</h3>
+    <p class="text-red-600 mb-4">This will permanently remove the teacher record. If an associated login account exists, it will also be deleted.</p>
+
+    <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-6">
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.FirstName)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.LastName)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.LastName)</dd>
+
+        <dt class="text-gray-700 font-medium">@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd class="text-gray-900">@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt class="text-gray-700 font-medium">Login Account:</dt>
+        <dd class="text-gray-900">
+            @if (!string.IsNullOrEmpty(Model.ApplicationUserId))
+            {
+                <span class="text-red-600 font-semibold">Yes (will be deleted)</span>
+            }
+            else
+            {
+                <span class="text-gray-600">No</span>
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteTeacher" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Delete
+            </button>
+            <a asp-action="ManageTeachers" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Back to List</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,79 @@
+﻿@model StudentManagementApp.ViewModels.InvoiceListViewModel
+
+@{
+    ViewData["Title"] = "Delete Invoice";
+}
+
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Delete Invoice</h1>
+
+<h3 class="text-lg text-red-600 mb-4">Are you sure you want to delete Invoice Number: <span class="font-bold">@Model.InvoiceNumber</span>?</h3>
+<div class="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <dl class="row mb-4">
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.InvoiceNumber)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Html.DisplayFor(model => model.InvoiceNumber)
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.IssueDate)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Html.DisplayFor(model => model.IssueDate)
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.StudentName)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Html.DisplayFor(model => model.StudentName)
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.ParentName)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Html.DisplayFor(model => model.ParentName)
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Model.TotalAmount.ToString("C")
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.AmountPaid)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Model.AmountPaid.ToString("C")
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            Balance Due:
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Model.BalanceDue.ToString("C")
+        </dd>
+        <dt class="col-sm-4 text-gray-700 font-bold">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-8 text-gray-900">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteInvoice">
+        <input type="hidden" asp-for="Id" />
+        <div class="flex items-center justify-between mt-6">
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+                Delete
+            </button>
+            <a asp-action="ManageInvoices" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to List
+            </a>
+        </div>
+    </form>
+</div>
